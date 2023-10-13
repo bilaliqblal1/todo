@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .task-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .task-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .task-list li {
+            background-color: #f4f4f4;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .task-list li:hover {
+            background-color: #e4e4e4;
+        }
+
+        .task-list li:focus {
+            background-color: #d4d4d4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Todo App</h1>
+        <input type="text" class="task-input" id="taskInput" placeholder="Enter a task">
+        <button id="addBtn">Add</button>
+        <ul class="task-list" id="taskList"></ul>
+    </div>
+
+    <script>
+        const taskInput = document.getElementById('taskInput');
+        const addBtn = document.getElementById('addBtn');
+        const taskList = document.getElementById('taskList');
+
+        addBtn.addEventListener('click', addTask);
+        taskList.addEventListener('click', editOrDeleteTask);
+
+        function addTask() {
+            if (taskInput.value.trim() === '') {
+                alert('Please enter a task');
+                return;
+            }
+
+            const li = document.createElement('li');
+            li.textContent = taskInput.value.trim();
+            taskList.appendChild(li);
+            taskInput.value = '';
+        }
+
+        function editOrDeleteTask(e) {
+            if (e.target.tagName !== 'LI') return;
+
+            const task = e.target;
+            const action = prompt('Enter "edit" to edit the task, or "delete" to delete the task');
+
+            if (action === 'edit') {
+                const newTask = prompt('Enter the new task');
+                if (newTask.trim() !== '') {
+                    task.textContent = newTask.trim();
+                }
+            } else if (action === 'delete') {
+                taskList.removeChild(task);
+            } else {
+                alert('Invalid action');
+            }
+        }
+    </script>
+</body>
+</html>
